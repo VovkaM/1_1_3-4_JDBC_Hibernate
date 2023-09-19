@@ -1,10 +1,10 @@
 package jm.task.core.jdbc.model;
 import javax.persistence.*;
-
-
-
+import java.util.Objects;
+@Entity
 @Table
 public class User {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
@@ -20,16 +20,6 @@ public class User {
     public User() {
 
     }
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", age=" + age +
-                '}';
-    }
-
     public User(String name, String lastName, Byte age) {
         this.name = name;
         this.lastName = lastName;
@@ -67,4 +57,31 @@ public class User {
     public void setAge(Byte age) {
         this.age = age;
     }
+
+    public String MysqlGenerate() {
+        return "id BIGINT not NULL AUTO_INCREMENT, name VARCHAR(255), lastName VARCHAR(255), age TINYINT, PRIMARY KEY ( id )";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(lastName, user.lastName) && Objects.equals(age, user.age);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, lastName, age);
+    }
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                '}';
+    }
+
 }
