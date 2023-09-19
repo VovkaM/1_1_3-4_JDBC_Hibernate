@@ -59,7 +59,8 @@ public class User {
     }
 
     public String MysqlGenerate() {
-        return "id BIGINT not NULL AUTO_INCREMENT, name VARCHAR(255), lastName VARCHAR(255), age TINYINT, PRIMARY KEY ( id )";
+        return "id BIGINT not NULL AUTO_INCREMENT, name VARCHAR(255), " +
+               "lastName VARCHAR(255), age TINYINT, PRIMARY KEY ( id )";
     }
 
     @Override
@@ -67,7 +68,8 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(lastName, user.lastName) && Objects.equals(age, user.age);
+        return Objects.equals(id, user.id) && Objects.equals(name, user.name)
+               && Objects.equals(lastName, user.lastName) && Objects.equals(age, user.age);
     }
 
     @Override

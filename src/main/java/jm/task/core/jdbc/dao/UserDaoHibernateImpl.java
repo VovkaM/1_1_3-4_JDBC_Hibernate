@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
-    private static final String CREATE_USERS_TABLE_SQL = "CREATE TABLE IF NOT EXISTS  %s ( id BIGINT not NULL AUTO_INCREMENT, name VARCHAR(255), lastName VARCHAR(255), age TINYINT, PRIMARY KEY ( id ))";
+    private static final String CREATE_USERS_TABLE_SQL = "CREATE TABLE IF NOT EXISTS  %s " +
+    "( id BIGINT not NULL AUTO_INCREMENT, name VARCHAR(255), lastName VARCHAR(255), age TINYINT, PRIMARY KEY ( id ))";
     private static final String DROP_USERS_TABLE_SQL = "drop table if exists ";
     private static final String CLEAR_USERS_TABLE_SQL = "DELETE FROM ";
+
     public UserDaoHibernateImpl() {
     }
-
 
     @Override
     public void createUsersTable() {
@@ -20,13 +21,15 @@ public class UserDaoHibernateImpl implements UserDao {
         try (Session session = Util.getSessionFactory().openSession()) {
             User user = new User();
             transaction = session.beginTransaction();
-            session.createNativeQuery(String.format(CREATE_USERS_TABLE_SQL, user.getClass().getSimpleName())).executeUpdate();
+            session.createNativeQuery(String.format(CREATE_USERS_TABLE_SQL,
+                    user.getClass().getSimpleName())).executeUpdate();
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
             e.printStackTrace();
         }
     }
+
     @Override
     public void dropUsersTable() {
         Transaction transaction = null;
@@ -40,6 +43,7 @@ public class UserDaoHibernateImpl implements UserDao {
             e.printStackTrace();
         }
     }
+
     @Override
     public void saveUser(String name, String lastName, byte age) {
         Transaction transaction = null;
@@ -67,9 +71,10 @@ public class UserDaoHibernateImpl implements UserDao {
             e.printStackTrace();
         }
     }
+
     @Override
-    public List < User > getAllUsers() {
-        List < User > result = new ArrayList< >();
+    public List<User> getAllUsers() {
+        List<User> result = new ArrayList<>();
         Transaction transaction = null;
         try (Session session = Util.getSessionFactory().openSession();) {
             transaction = session.beginTransaction();
@@ -82,6 +87,7 @@ public class UserDaoHibernateImpl implements UserDao {
         }
         return result;
     }
+
     @Override
     public void cleanUsersTable() {
         Transaction transaction = null;
@@ -95,5 +101,4 @@ public class UserDaoHibernateImpl implements UserDao {
             e.printStackTrace();
         }
     }
-
 }
